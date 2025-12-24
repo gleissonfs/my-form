@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="js/sendData.js" defer></script>
+    <script src="js/formSteps.js" defer></script>
+    <title>Contrato Fechado</title>
+    <link rel="icon" type="image/x-icon" href="img/icone.ico">
+</head>
+<body>
+    <form action="/submit" method="post" id="closed_deal">
+       <div class="tf-progress"><div></div></div>
+       <div id="contact_info" class="active">
+            <h2>Informações de Contato</h2>
+            <div style="display: flex; gap: 20px;">
+                <fieldset>
+                    <legend>Tipo de Cliente:</legend>
+                    <input type="radio" name="cliente_tipo" value="54c81169-0793-45c4-ab6e-3546da1b7264" checked>                  
+                    <label for="cliente_tipo_juridica">Jurídica</label>  
+                    <input type="radio" name="cliente_tipo" value="282d3766-260f-4358-9e3d-fe5495df0239">                               
+                    <label for="cliente_tipo_fisica">Física</label>   
+                </fieldset>
+                <div class="crm_info">
+                    <label for="crm_id">ID do Negócio:</label>
+                    <span class="info-icon" title="O id do Negócio está localizado na URL do Clint quando estiver visualizando o card do Cliente. Exemplo: https://app.clint.digital/deal/307e43c8-20f8-45d3-9c3d-1e28e8d6550c"><i class="fa-solid fa-question"></i></span>
+                    <input type="text" id="crm_id" name="crm_id" placeholder="307e43c8-20f8-45d3-9c3d-1e28e8d6550c" required>
+                </div>
+            </div>
+            <label for="responsible">Nome do Responsável Legal:</label>
+            <input type="text" id="responsible" name="responsible" placeholder="Mateus Lobato" class="capitalize" required>
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+            <label for="rg">RG:</label>
+            <input type="text" id="rg" name="rg" placeholder="12345678990" required>
+            <button type="button">Próximo</button>
+        </div>
+        <div id="service_info" style="display:none;">
+            <h2>Informações da Loja</h2>
+            <label for="store_name">Nome da Loja:</label>
+            <input type="text" id ="store_name" name="store_name" class="capitalize" placeholder="Blessing Midia" required>
+            <label for="cnpj">CNPJ:</label>
+            <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
+            <label for="business_name">Razão Social:</label>
+            <input type="text" id="business_name" class="capitalize" placeholder="BLESSING MIDIA DIGITAL LTDA" required>
+             <label for="zip_code">CEP:</label>
+                <input type="text" id="zip_code" name="zip_code" placeholder="35660-011" required>
+                <label for="address">Rua*</label>
+                <input type="text" id="address" name="address" class="capitalize" placeholder="Rua Tenente-Coronel Roberto" required>
+                <label for="number">Número*</label>
+                <input type="text" id="number" name="number" placeholder="29" required>
+                <label for="address1">Complemento</label>
+                <input type="text" id="address1" name="address1" class="capitalize" placeholder="Sala 614">            
+                <label for="neighborhood">Bairro*</label>
+                <input type="text" id="neighborhood" name="neighborhood" class="capitalize" placeholder="Centro" required>
+                <label for="city">Cidade*</label>
+                <input type="text" id="city" name="city" class="capitalize" placeholder="Pará de Minas" required>
+                <label for="state">Estado*</label>
+                <select id="state" name="state" required>
+                    <option>AC</option>
+                    <option>AL</option>
+                    <option>AP</option>
+                    <option>AM</option>
+                    <option>BA</option>
+                    <option>CE</option>
+                    <option>ES</option>
+                    <option>GO</option>
+                    <option>MA</option>
+                    <option>MT</option>
+                    <option>MS</option>
+                    <option>MG</option>
+                    <option>PA</option>
+                    <option>PB</option>
+                    <option>PE</option>
+                    <option>PR</option>
+                    <option>PI</option>
+                    <option>RJ</option>
+                    <option>RN</option>
+                    <option>RS</option>
+                    <option>RO</option>
+                    <option>RR</option> 
+                    <option>SC</option> 
+                    <option>SP</option>
+                    <option>SE</option>
+                    <option>TO</option>
+                </select>
+            <div class="tf-nav">
+                <button type="button" class="tf-back">Voltar</button>
+                <button type="button">Próximo</button>
+            </div>
+        </div>
+        <div id="payment_info" style="display: none;" >
+            <h2>Informações de Pagamento</h2>
+            <label for="value">Valor:</label>
+            <input type="number" id="value" name="value" required>
+            <label for="payment_conditions">Condições Pagamento:</label>
+            <input type="text" id="payment_conditions" name="payment_conditions" placeholder="Nos três primeiros meses será o valor de R$2800 e a partir  do quarto mês R$3500 fixo" required>
+            <label for="payment_date">Data Vencimento Boleto:</label>
+            <input type="date" id="payment_date" name="payment_date" required>
+            <label for="payment_type">Tipo de Pagamento</label>
+            <select name="payment_type" id="payment_type" required>
+                <option value="7b4ca827-5c3d-4c32-a5d5-ef3517f17824">Imediato</option>
+                <option value="bb5e91f3-b6ca-48f8-bdc3-5eaa1286b04b">Boleto Bancário</option>
+            </select>
+            <label for="bill_date">Vencimento do Boleto</label>
+            <select name="payment_type" id="bill_date" required>
+                <option value="1452acc6-eefd-4fd9-8f2e-d8952d651cb6">30 dias</option>
+                <option value="c013436a-6a42-44c6-baa1-548c714715df">35 dias</option>
+            </select>
+            <label for="sent_type">Forma de Envio</label>
+            <select name="sent_type" id="sent_type" required>
+                <option value="dcb53329-3be5-431b-8e37-916dee309af2">WhatsApp</option>
+                <option value="f19fd324-c683-41e5-b8e7-c7319d8fb4a9">E-mail</option>
+            </select>
+            <label for="financial_email">E-mail NFs e Boletos:</label>
+            <input type="email" id="financial_email" name="financial_email" placeholder="exemplo@blessingmidia.com" required>
+            <div class="tf-nav">
+                <button type="button" class="tf-back">Voltar</button>
+                <button type="button">Próximo</button>
+            </div>
+        </div>
+        <div id="summary_info" style="display: none;">
+            <h2>Resumo das Informações</h2>
+            <div id="summary_content" class="summary-content"></div>
+            <div class="tf-nav">
+                <button type="button" class="tf-back">Voltar</button>
+                <button type="button" class="tf-clear">Limpar</button>
+                <button type="submit">Enviar</button>
+            </div>
+        </div>
+        <footer>
+            <p>© 2025 Blessing Midia. Todos os direitos reservados.</p>
+        </footer>
+    </form>
+</body>
+</html>
