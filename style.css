@@ -1,0 +1,694 @@
+:root{
+  --bg: #0b1220;
+  --card: rgba(255,255,255,.06);
+  --card2: rgba(255,255,255,.08);
+  --border: rgba(255,255,255,.12);
+  --text: rgba(255,255,255,.92);
+  --inside-text: rgba(0,0,0,.92);
+  --muted: rgba(255,255,255,.70);
+  --field: rgba(255,255,255,.08);
+  --field-border: rgba(255,255,255,.14);
+  --focus: rgba(99,102,241,.55);
+  --primary: #6366f1;
+  --primary2: #8b5cf6;
+  --orange: #f97316;
+  --orange-dark: #ea580c;
+  --radius: 18px;
+  --shadow: 0 18px 60px rgba(0,0,0,.35);
+}
+
+*{ box-sizing:border-box; }
+html,body{ height:100%; }
+
+body{
+  margin:0;
+  font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  color: var(--text);
+  background:
+    radial-gradient(1200px 600px at 15% 10%, rgba(99,102,241,.25), transparent 60%),
+    radial-gradient(900px 500px at 85% 0%, rgba(139,92,246,.18), transparent 55%),
+    radial-gradient(1000px 700px at 50% 110%, rgba(34,197,94,.10), transparent 60%),
+    radial-gradient(800px 400px at 50% 50%, rgba(249,115,22,.08), transparent 70%),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+/* Form card */
+#closed_deal{
+  width: min(860px, 92vw);
+  margin: 44px auto 18px;
+  padding: 28px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(99,102,241,.08), rgba(139,92,246,.06));
+  border: 1.5px solid rgba(249,115,22,.15);
+  box-shadow: 0 24px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.05);
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+}
+
+/* Each step (your divs) */
+#contact_info, #service_info, #payment_info, #summary_info{
+  padding: 24px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(99,102,241,.06), rgba(139,92,246,.04));
+  border: 1.5px solid rgba(255,255,255,.08);
+  box-shadow: 0 8px 32px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+/* Headings */
+#closed_deal h2{
+  margin: 0 0 20px;
+  font-size: 1.35rem;
+  font-weight: 700;
+  letter-spacing: .25px;
+  background: linear-gradient(135deg, var(--primary), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: transform .3s ease;
+}
+
+/* Grid layout per step */
+#contact_info, #service_info, #payment_info{
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  animation: stepEnter 0.6s ease-out forwards;
+}
+
+/* Shake animation for validation errors */
+#contact_info.tf-shake, #service_info.tf-shake, #payment_info.tf-shake{
+  animation: tfShake .28s ease;
+}
+
+/* Two-column layout for service_info */
+#service_info{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* Make h2 and buttons span full width in service_info */
+#service_info h2,
+#service_info .tf-nav{
+  grid-column: 1 / 1;
+}
+
+/* Default: labels and inputs span both columns unless specified */
+#service_info label,
+#service_info input,
+#service_info select{
+  grid-column: 1 / -1;
+}
+
+/* Pair fields in service_info */
+#service_info label[for="store_name"],
+#service_info input[name="store_name"]{
+  grid-column: 1 / 2;
+}
+
+#service_info label[for="cnpj"],
+#service_info input[name="cnpj"]{
+  grid-column: 2 / 3;
+}
+
+#service_info label[for="business_name"],
+#service_info input[name="business_name"]{
+  grid-column: 1 / -1;
+}
+
+#service_info label[for="zip_code"],
+#service_info input[name="zip_code"]{
+  grid-column: 1 / 2;
+}
+
+#service_info label[for="address"],
+#service_info input[name="address"]{
+  grid-column: 1 / 2;
+}
+
+#service_info label[for="number"],
+#service_info input[name="number"]{
+  grid-column: 2 / 3;
+}
+
+#service_info label[for="address1"],
+#service_info input[name="address1"]{
+  grid-column: 2 / 3;
+}
+
+#service_info label[for="neighborhood"],
+#service_info input[name="neighborhood"]{
+  grid-column: 1 / 2;
+}
+
+#service_info label[for="city"],
+#service_info input[name="city"]{
+  grid-column: 2 / 3;
+}
+
+#service_info label[for="state"],
+#service_info select[name="state"]{
+  grid-column: 1 / -1;
+}
+
+/* Hide steps by default */
+#service_info, #payment_info, #summary_info{
+  display: none;
+}
+/* Show active step */
+#contact_info.active, #service_info.active, #payment_info.active, #summary_info.active{
+  display: flex;
+  animation: stepEnter 0.6s ease-out forwards;
+}
+
+/* Animation for step entrance */
+@keyframes stepEnter{
+  from{
+    opacity: 0;
+    transform: translateY(24px) scale(0.96);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Animation for step exit */
+@keyframes stepExit{
+  from{
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to{
+    opacity: 0;
+    transform: translateY(-24px) scale(0.96);
+  }
+}
+
+/* Exit animation class */
+#contact_info.exit, #service_info.exit, #payment_info.exit, #summary_info.exit{
+  animation: stepExit 0.4s ease-in forwards;
+}
+
+/* Labels */
+#closed_deal label{
+  font-size: .95rem;
+  color: rgba(255,255,255,.8);
+  margin-top: 6px;
+  font-weight: 500;
+  letter-spacing: .3px;
+  animation: labelFadeIn 0.5s ease-out 0.1s backwards;
+  transition: color .2s ease;
+}
+
+#contact_info.active label,
+#service_info.active label,
+#payment_info.active label{
+  animation: labelFadeIn 0.5s ease-out 0.1s forwards;
+}
+
+@keyframes labelFadeIn{
+  from{
+    opacity: 0;
+  }
+  to{
+    opacity: 1;
+  }
+}
+
+/* Fields */
+#closed_deal input:not([type="radio"]),
+#closed_deal select{
+  width: 100%;
+  padding: 13px 16px;
+  border-radius: 11px;
+  border: 1.5px solid rgba(249,115,22,.15);
+  background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  color: var(--text);
+  outline: none;
+  transition: all .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  animation: fieldFadeIn 0.6s ease-out 0.2s backwards;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.2);
+}
+
+#contact_info.active input,
+#contact_info.active select,
+#service_info.active input,
+#service_info.active select,
+#payment_info.active input,
+#payment_info.active select{
+  animation: fieldFadeIn 0.6s ease-out 0.2s forwards;
+}
+
+@keyframes fieldFadeIn{
+  from{
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#closed_deal select option{
+  background: var(--field);
+  color: var(--inside-text);
+}
+
+#closed_deal input::placeholder{ color: rgba(255,255,255,.45); }
+
+#closed_deal input:not([type="radio"]):focus,
+#closed_deal select:focus{
+  border-color: var(--orange);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,.2), 0 0 0 4px rgba(249,115,22,.2), 0 0 12px rgba(249,115,22,.15);
+  background: linear-gradient(135deg, rgba(249,115,22,.08), rgba(249,115,22,.05));
+  transform: translateY(-1px);
+}
+
+#closed_deal input:not([type="radio"]):active{ transform: translateY(0px); }
+
+/* Button styles (all buttons in your form) */
+#closed_deal button{
+  margin-top: 14px;
+  padding: 13px 28px;
+  border: 0;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: .3px;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--orange), var(--orange-dark));
+  box-shadow: 0 12px 32px rgba(249,115,22,.25), 0 0 0 0 rgba(249,115,22,.1);
+  transition: all .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+#closed_deal button::before{
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+  opacity: 0;
+  transition: opacity .3s ease;
+}
+
+#closed_deal button:hover{
+  transform: translateY(-2px);
+  filter: brightness(1.12);
+  box-shadow: 0 18px 48px rgba(249,115,22,.35), 0 0 20px rgba(249,115,22,.15);
+}
+
+#closed_deal button:hover::before{
+  opacity: 1;
+}
+
+#closed_deal button:active{ 
+  transform: translateY(0px);
+  box-shadow: 0 8px 20px rgba(249,115,22,.2);
+}
+
+/* Submit button looks "final" */
+#closed_deal button[type="submit"]{
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  box-shadow: 0 12px 32px rgba(34,197,94,.25), 0 0 0 0 rgba(34,197,94,.1);
+}
+
+#closed_deal button[type="submit"]:hover{
+  box-shadow: 0 18px 48px rgba(34,197,94,.35), 0 0 20px rgba(34,197,94,.15);
+}
+
+/* Address section styling */
+
+/* Summary info - keep as flex column (only when active) */
+#summary_info.active{
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  animation: stepEnter 0.6s ease-out forwards;
+}
+
+#summary_info h2{
+  margin-bottom: 10px;
+}
+
+#summary_info .summary-content{
+  flex: 1;
+  overflow-y: visible;
+  height: auto;
+  padding: 10px 0;
+}
+
+#summary_info .tf-nav{
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+
+.summary-section{
+  margin-bottom: 24px;
+  padding: 16px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, rgba(99,102,241,.06), rgba(139,92,246,.04));
+  border: 1.5px solid rgba(255,255,255,.08);
+}
+
+.summary-header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  gap: 12px;
+}
+
+.summary-section h3{
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: rgba(255,255,255,.9);
+  letter-spacing: .2px;
+  flex: 1;
+}
+
+.summary-section p{
+  margin: 10px 0;
+  color: rgba(255,255,255,.85);
+  font-size: .95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.summary-section strong{
+  color: rgba(255,255,255,.9);
+  font-weight: 600;
+}
+
+.summary-section span{
+  color: rgba(255,255,255,.75);
+  margin-right: 10px;
+}
+
+.summary-edit-btn{
+  margin: 0 !important;
+  padding: 6px 12px !important;
+  font-size: .85rem !important;
+  background: linear-gradient(135deg, rgba(249,115,22,.15), rgba(249,115,22,.1)) !important;
+  border: 1px solid rgba(249,115,22,.3) !important;
+  color: var(--orange) !important;
+  border-radius: 8px !important;
+  cursor: pointer;
+  transition: all .2s ease !important;
+  box-shadow: none !important;
+  white-space: nowrap;
+}
+
+.summary-edit-btn:hover{
+  background: linear-gradient(135deg, rgba(249,115,22,.25), rgba(249,115,22,.2)) !important;
+  border-color: var(--orange) !important;
+  box-shadow: 0 6px 16px rgba(249,115,22,.15) !important;
+}
+
+.summary-edit-btn:active{
+  transform: translateY(0) !important;
+}
+
+.summary-content{
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+/* Responsive: make some fields side-by-side on wider screens */
+@media (min-width: 760px){
+  /* Address section two-column grid */
+  #address_section{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 14px;
+  }
+
+  /* Address section field pairings */
+  #address_section label[for="zip_code"],
+  #address_section input[name="zip_code"]{
+    grid-column: 1 / 2;
+  }
+
+  #address_section label[for="address"],
+  #address_section input[name="address"]{
+    grid-column: 1 / 2;
+  }
+
+  #address_section label[for="number"],
+  #address_section input[name="number"]{
+    grid-column: 2 / 3;
+  }
+
+  #address_section label[for="address1"],
+  #address_section input[name="address1"]{
+    grid-column: 2 / 3;
+  }
+
+  #address_section label[for="neighborhood"],
+  #address_section input[name="neighborhood"]{
+    grid-column: 1 / 2;
+  }
+
+  #address_section label[for="city"],
+  #address_section input[name="city"]{
+    grid-column: 2 / 3;
+  }
+
+  #address_section label[for="state"],
+  #address_section select[name="state"]{
+    grid-column: 1 / -1;
+  }
+
+  #contact_info, #service_info, #payment_info{
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 14px;
+    align-items: start;
+  }
+
+  /* Keep summary_info as flex column */
+  /* Keep summary_info as flex column (only when active on wider screens) */
+  #summary_info.active{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Make title span full width */
+  #closed_deal h2{ grid-column: 1 / -1; }
+
+  /* Default: label + input span both (keeps it consistent) */
+  #closed_deal label,
+  #closed_deal input,
+  #closed_deal select{
+    grid-column: 1 / -1;
+  }
+
+  /* Contact step: nice pairs */
+  #contact_info label[for="zip_code"],
+  #contact_info input[name="zip_code"]{ grid-column: 1 / 2; }
+
+  #contact_info label[for="address"],
+  #contact_info input[name="address"]{ grid-column: 1 / 2; }
+
+  #contact_info label[for="number"],
+  #contact_info input[name="number"]{ grid-column: 2 / 3; }
+  
+  #contact_info label[for="address1"],
+  #contact_info input[name="address1"]{ grid-column: 2 / 3; }
+
+  #contact_info label[for="neighborhood"],
+  #contact_info input[name="neighborhood"]{ grid-column: 1 / 2; }
+
+  #contact_info label[for="city"],
+  #contact_info input[name="city"]{ grid-column: 2 / 3; }
+
+  #contact_info label[for="state"],
+  #contact_info select[name="state"]{ grid-column: 1 / -1; }
+
+  /* Payment step: side-by-side date + type */
+  #payment_info label[for="payment_date"],
+  #payment_info input[name="payment_date"]{ grid-column: 1 / 2; }
+
+  #payment_info label[for="payment_type"],
+  #payment_info select[name="payment_type"]{ grid-column: 2 / 3; }
+
+  /* Address section: apply grid pairing rules to contact_info */
+  #contact_info #address_section input,
+  #contact_info #address_section select{
+    width: 100%;
+  }
+
+  /* Buttons full width */
+  #closed_deal button{ grid-column: 1 / -1; }
+}
+
+@media (min-width: 1024px){
+  #closed_deal{
+    width: min(900px, 95vw);
+    padding: 28px;
+  }
+
+  #closed_deal h2{
+    font-size: 1.5rem;
+  }
+}
+
+/* Footer */
+footer{
+  width: min(860px, 92vw);
+  margin: 0 auto 36px;
+  padding: 16px 8px;
+  text-align: center;
+  color: rgba(255,255,255,.55);
+  font-size: .9rem;
+  letter-spacing: .2px;
+}
+
+footer p{
+  margin: 0;
+  background: linear-gradient(135deg, var(--primary), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-weight: 600;
+}
+
+/* --- Typeform-like step transitions + progress bar --- */
+#closed_deal{
+  position: relative;
+  overflow: hidden;
+}
+
+.tf-progress{
+  height: 12px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  border: 1.5px solid rgba(249,115,22,.12);
+  margin: 0 0 20px;
+  overflow: hidden;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,.2);
+}
+
+.tf-progress > div{
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--orange), var(--orange-dark));
+  transition: width .6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  box-shadow: 0 0 16px rgba(249, 115, 22, 0.5), inset 0 1px 0 rgba(255,255,255,.3);
+}
+
+.tf-step{
+  position: absolute;
+  inset: 56px 0 0 0;
+  padding: 0;
+  opacity: 0;
+  transform: translateX(24px);
+  pointer-events: none;
+  transition: opacity .32s ease, transform .32s ease;
+}
+
+.tf-step.is-active{
+  position: relative;
+  inset: auto;
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.tf-step.is-exit-left{
+  opacity: 0;
+  transform: translateX(-24px);
+}
+
+.tf-nav{
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+
+.tf-back{
+  background: linear-gradient(135deg, rgba(255,255,255,.08), rgba(255,255,255,.05)) !important;
+  border: 1.5px solid rgba(255,255,255,.12);
+  box-shadow: 0 8px 24px rgba(0,0,0,.15), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  color: rgba(255,255,255,.85);
+  transition: all .2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.tf-back:hover{
+  background: linear-gradient(135deg, rgba(249,115,22,.12), rgba(249,115,22,.08)) !important;
+  border-color: rgba(249,115,22,.3) !important;
+  box-shadow: 0 12px 32px rgba(249,115,22,.15), inset 0 1px 0 rgba(255,255,255,.08) !important;
+  transform: translateY(-2px);
+}
+
+.tf-hint{
+  margin: 8px 0 0;
+  color: rgba(255,255,255,.65);
+  font-size: .9rem;
+}
+
+.tf-error{
+  margin: 12px 0 0;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(239,68,68,.3);
+  background: linear-gradient(135deg, rgba(239,68,68,.12), rgba(239,68,68,.08));
+  color: rgba(255,200,200,.9);
+  display: none;
+  animation: tfShake .28s ease;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.05);
+}
+
+.tf-error.show{ display: block; }
+
+/* nice "shake" when invalid */
+@keyframes tfShake{
+  0%,100%{ transform: translateX(0); }
+  25%{ transform: translateX(-6px); }
+  50%{ transform: translateX(6px); }
+  75%{ transform: translateX(-4px); }
+}
+
+.tf-shake{ animation: tfShake .28s ease; }
+
+/* Mobile optimization */
+@media (max-width: 480px){
+  #closed_deal{
+    margin: 14px auto;
+    padding: 18px;
+  }
+
+  #contact_info, #service_info, #payment_info{
+    padding: 16px;
+  }
+
+  #closed_deal h2{
+    font-size: 1.2rem;
+    margin-bottom: 16px;
+  }
+
+  #closed_deal label{
+    font-size: .88rem;
+  }
+
+  #closed_deal input,
+  #closed_deal select{
+    padding: 11px 13px;
+    font-size: 16px;
+  }
+
+  #closed_deal button{
+    padding: 11px 16px;
+    font-size: .95rem;
+    margin-top: 12px;
+  }
+}
